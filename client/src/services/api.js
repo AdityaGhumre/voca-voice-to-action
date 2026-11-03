@@ -1,4 +1,20 @@
-const API_BASE = '/api';
+/**
+ * Resolves the API base URL depending on environment.
+ * In development, defaults to '/api' (proxied by Vite to http://localhost:5000/api).
+ * In production, uses import.meta.env.VITE_API_BASE_URL (e.g. https://voca-voice-to-action.onrender.com).
+ * Sanitizes input to avoid duplicate '/api/api' or trailing slashes.
+ */
+function getApiBase() {
+  const envUrl = import.meta.env?.VITE_API_BASE_URL?.trim();
+  if (!envUrl) {
+    return '/api';
+  }
+  let cleanUrl = envUrl.replace(/\/+$/, '');
+  cleanUrl = cleanUrl.replace(/(\/api)+$/, '/api');
+  return cleanUrl.endsWith('/api') ? cleanUrl : `${cleanUrl}/api`;
+}
+
+const API_BASE = getApiBase();
 
 // Timeout constants (ms)
 const AI_REQUEST_TIMEOUT_MS = 30000;   // 30s for parse + execute (Gemini-backed)
