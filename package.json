@@ -1,0 +1,22 @@
+{
+  "name": "voca-workspace",
+  "version": "1.0.0",
+  "description": "Voca — Voice to Action AI Assistant",
+  "private": true,
+  "scripts": {
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "start:server": "npm --prefix server start",
+    "build:client": "npm --prefix client run build",
+    "db:reset": "npm --prefix server run db:reset",
+    "db:seed": "npm --prefix server run db:seed",
+    "install:all": "npm --prefix server install && npm --prefix client install"
+  },
+  "keywords": [
+    "voca",
+    "voice-to-action",
+    "ai-assistant"
+  ],
+  "author": "",
+  "license": "ISC"
+}

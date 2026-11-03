@@ -1,0 +1,98 @@
+﻿@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-primary: #0B0F17;
+    --bg-secondary: #121824;
+    --bg-elevated: #182030;
+    --border-subtle: #222E42;
+    --border-highlight: rgba(204, 255, 0, 0.25);
+
+    --text-primary: #F7F7F2;
+    --text-secondary: #9AA6BC;
+    --text-muted: #5B6B82;
+
+    --accent-lime: #CCFF00;
+    --accent-lime-hover: #D8FF33;
+    --accent-lime-subtle: rgba(204, 255, 0, 0.08);
+    --accent-lime-border: rgba(204, 255, 0, 0.3);
+
+    --accent-violet: #8B5CF6;
+    --accent-violet-subtle: rgba(139, 92, 246, 0.12);
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    overflow-x: hidden;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0B0F17;
+}
+::-webkit-scrollbar-thumb {
+  background: #1F2A3D;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2D3D58;
+}
+
+/* Waveform bar animations */
+@keyframes wave1 {
+  0%, 100% { height: 12px; }
+  50% { height: 38px; }
+}
+@keyframes wave2 {
+  0%, 100% { height: 26px; }
+  50% { height: 50px; }
+}
+@keyframes wave3 {
+  0%, 100% { height: 34px; }
+  50% { height: 16px; }
+}
+@keyframes wave4 {
+  0%, 100% { height: 16px; }
+  50% { height: 44px; }
+}
+@keyframes wave5 {
+  0%, 100% { height: 40px; }
+  50% { height: 20px; }
+}
+
+.animate-wave-1 { animation: wave1 1.1s ease-in-out infinite; }
+.animate-wave-2 { animation: wave2 0.9s ease-in-out infinite 0.15s; }
+.animate-wave-3 { animation: wave3 1.3s ease-in-out infinite 0.3s; }
+.animate-wave-4 { animation: wave4 1s ease-in-out infinite 0.2s; }
+.animate-wave-5 { animation: wave5 1.2s ease-in-out infinite 0.1s; }
+
+/* Radar / Pulse ring animation for mic */
+@keyframes micPulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(204, 255, 0, 0.5);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 24px rgba(204, 255, 0, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(204, 255, 0, 0);
+  }
+}
+
+.mic-active-pulse {
+  animation: micPulse 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}

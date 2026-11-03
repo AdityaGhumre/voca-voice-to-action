@@ -1,0 +1,15 @@
+# Enforce Unix (LF) line endings for all text files in the repo.
+# This prevents CRLF/LF conflicts between Windows and macOS/Linux contributors.
+* text=auto eol=lf
+
+# Explicitly mark binary files as binary (no line ending conversion)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.svg binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+

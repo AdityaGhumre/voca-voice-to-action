@@ -1,0 +1,26 @@
+{
+  "name": "voca-server",
+  "version": "1.0.0",
+  "description": "Voca - Voice to Action AI Assistant Backend",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "db:reset": "node -e \"import('./src/storage/db.js').then(db => db.resetStore('empty')).then(() => console.log('Database cleared to empty state.'))\"",
+    "db:seed": "node -e \"import('./src/storage/db.js').then(db => db.resetStore('seed')).then(() => console.log('Database seeded with template data.'))\""
+  },
+  "keywords": [
+    "voice-assistant",
+    "ai",
+    "voca"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google/genai": "^2.32.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}
