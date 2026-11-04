@@ -496,19 +496,45 @@ npm run db:seed    # Load example seed records
 
 ## 🎬 Demo Video & Screenshots
 
-> **[TODO: add demo video link]**
+📁 **[View on Google Drive — Demo Videos & Screenshots](https://drive.google.com/drive/folders/1Tjnx5eEYN9j6W56QrmS6FUc_RARsG0rY)**
 
-> **[TODO: add screenshots or a link to the Google Drive project-screenshot folder]**
+The Google Drive folder contains **three demo recordings** and the **complete screenshot collection** for this submission.
 
-Recommended screenshots:
-- Dashboard overview with expenses, tasks, and reminders.
-- Voice recording in progress (listening state with waveform animation).
-- Multi-action result panel after a compound command.
-- Task, expense, and reminder detail views (view and edit modes).
-- Reminder past-date rejection message.
-- Mobile layout.
+### What the demos cover
 
-The full demo video and screenshot collection can be kept in the linked Google Drive submission folder.
+| Capability | Demonstrated |
+|---|---|
+| Voice input and live transcription | Microphone activation, speech capture, real-time transcript |
+| Gemini AI intent understanding | Multi-action extraction from a single spoken sentence |
+| Clarification requests | Voca asks for missing information rather than guessing |
+| Expense, task, and reminder creation | All three action types created from one compound command |
+| Duplicate detection | User confirmation prompt when an identical action is detected |
+| Action persistence and voice confirmation | Records saved to storage; assistant reads confirmation aloud |
+| Dashboard and record management | Edit, delete, and status toggle for all record types |
+
+### Screenshot highlights
+
+The following screenshots are available in the Google Drive folder:
+
+**1. Dashboard Overview**
+Full dashboard showing expense history, active tasks, upcoming reminders, and recent activity log.
+
+**2. Successful Voice Action**
+Result panel after a compound voice command — expense recorded, task created, and reminder scheduled from one sentence.
+
+**3. Clarification Request**
+Voca detecting a missing required field (such as an expense with no amount) and prompting the user instead of inventing a value.
+
+**4. Duplicate Action Detection**
+Server-detected duplicate warning with user confirmation prompt before proceeding.
+
+**5. Task Details**
+Task detail panel showing title, description, notes, priority badge, due date, and completion status.
+
+**6. Reminder Details**
+Reminder detail panel showing scheduled time, description, and status.
+
+> Screenshots are hosted in the Google Drive folder above and are not committed to the repository.
 
 ---
 
