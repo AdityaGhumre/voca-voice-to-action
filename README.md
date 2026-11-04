@@ -23,8 +23,6 @@ The core problem: capturing multiple related thoughts at once — across differe
 
 **What makes it different:** Instead of requiring separate entry flows in an expense tracker, a to-do app, and a reminder app, Voca interprets one compound spoken instruction and creates multiple structured records from it simultaneously.
 
-**Hackathon:** `[TODO: add hackathon name and track]`
-
 ---
 
 ## 🎙️ Project Overview
@@ -294,9 +292,9 @@ Work completed by one person:
 
 **Problem:** Reminder interpretation can differ when the server and user are in different timezones. A reminder intended for 5 PM IST may be evaluated incorrectly if the deployed server runs in UTC.
 
-**Solution in code:** `dateTime.js` uses `new Date()` on the server process (local clock) for all date and time operations. The server timezone is injected into the Gemini system prompt via `Intl.DateTimeFormat().resolvedOptions().timeZone`. Reminder schedules are compared against `new Date()` before saving.
+**Solution in code & configuration:** `dateTime.js` uses `new Date()` on the server process (local clock) for all date and time operations. The server timezone is injected into the Gemini system prompt via `Intl.DateTimeFormat().resolvedOptions().timeZone`. Reminder schedules are compared against `new Date()` before saving.
 
-**Deployment note:** To ensure correct behavior in production, set `TZ=Asia/Kolkata` in the Render environment. `[TODO: confirm whether TZ is configured in the deployed Render service.]`
+**Production configuration:** The Render backend service is configured with the environment variable `TZ=Asia/Kolkata`. This ensures the server process clock operates in Indian Standard Time (IST, UTC+5:30), aligning reminder schedule validation and relative-date calculations with target users regardless of host machine defaults.
 
 ---
 
@@ -355,15 +353,22 @@ The `getApiBase()` function in `client/src/services/api.js` reads `VITE_API_BASE
 
 ### Backend — Render
 
-**URL:** [https://voca-voice-to-action.onrender.com](https://voca-voice-to-action.onrender.com)
-**Health check:** [https://voca-voice-to-action.onrender.com/api/health](https://voca-voice-to-action.onrender.com/api/health)
+- **Hosting Platform:** Render
+- **Backend Service:** `voca-voice-to-action`
+- **Deployment Region:** Singapore (cloud infrastructure hosting)
+- **Application Timezone:** `Asia/Kolkata` (IST, UTC+5:30 via `TZ` environment variable)
+- **URL:** [https://voca-voice-to-action.onrender.com](https://voca-voice-to-action.onrender.com)
+- **Health check:** [https://voca-voice-to-action.onrender.com/api/health](https://voca-voice-to-action.onrender.com/api/health)
+
+> **Deployment Region vs. Application Timezone:** The deployment region (Singapore) determines physical cloud server placement for optimal network routing, while the application timezone (`TZ=Asia/Kolkata`) configures the Node.js runtime process clock to evaluate relative dates and reminder schedules in Indian Standard Time.
 
 The Express server runs on Render using `npm start` (`node src/index.js`).
 
-**Required environment variable on Render:**
+**Environment variables configured on Render:**
 
 ```env
 GEMINI_API_KEY=your_key_here
+TZ=Asia/Kolkata
 ```
 
 > Render injects its own `PORT` at runtime. Do **not** set `PORT` in the Render environment. `PORT=5000` is for local development only.
@@ -387,7 +392,7 @@ GEMINI_API_KEY=your_key_here
 | **Cold starts** | The Render free-tier service may sleep after inactivity. The first request after waking can take up to approximately one minute. |
 | **Browser support** | Speech recognition works best in Chrome and Edge; Safari support is partial; Firefox is not supported. |
 | **No server-side rate limiting** | The server detects Gemini 429 errors and surfaces a friendly message, but no independent rate-limiting middleware is applied to the API endpoints. Any user can send requests freely. |
-| **Timezone** | Reminder validation uses the server's local clock. `[TODO: confirm TZ=Asia/Kolkata is set in the Render environment.]` |
+| **Single-timezone scope** | The backend is configured for Indian Standard Time (`TZ=Asia/Kolkata`). Multi-timezone user support (transmitting dynamic client-side timezone offsets per user) is planned for future releases. |
 | **CORS** | The backend currently allows all origins (`origin: '*'`). This is acceptable for a hackathon demo but should be tightened for production. |
 
 ---
@@ -498,43 +503,32 @@ npm run db:seed    # Load example seed records
 
 📁 **[View on Google Drive — Demo Videos & Screenshots](https://drive.google.com/drive/folders/1Tjnx5eEYN9j6W56QrmS6FUc_RARsG0rY)**
 
-The Google Drive folder contains **three demo recordings** and the **complete screenshot collection** for this submission.
+The Google Drive folder contains **three demo video recordings** and the **complete screenshot collection** for this hackathon submission.
 
-### What the demos cover
+### Demonstrated Capabilities
 
-| Capability | Demonstrated |
-|---|---|
-| Voice input and live transcription | Microphone activation, speech capture, real-time transcript |
-| Gemini AI intent understanding | Multi-action extraction from a single spoken sentence |
-| Clarification requests | Voca asks for missing information rather than guessing |
-| Expense, task, and reminder creation | All three action types created from one compound command |
-| Duplicate detection | User confirmation prompt when an identical action is detected |
-| Action persistence and voice confirmation | Records saved to storage; assistant reads confirmation aloud |
-| Dashboard and record management | Edit, delete, and status toggle for all record types |
+| # | Capability | Description |
+|---|---|---|
+| 1 | **Voice input and speech transcription** | Live microphone speech recognition with silence detection and transcript combining |
+| 2 | **Gemini AI intent understanding** | Natural language processing extracting structured actions from spoken sentences |
+| 3 | **Clarification when required information is missing** | Interactive prompts asking for missing details (e.g., amount) rather than guessing |
+| 4 | **Expense, task, and reminder creation** | Simultaneous generation of expenses, tasks, and future-validated reminders |
+| 5 | **Duplicate action detection and confirmation** | Client and server duplicate guard preventing accidental duplicate records |
+| 6 | **Voice confirmation after successful action execution** | Browser text-to-speech confirmation spoken only after successful backend persistence |
+| 7 | **Dashboard synchronization and record management** | Real-time dashboard updates, item toggling, rich detail modals, editing, and deletion |
 
-### Screenshot highlights
+### Visual Documentation Highlights
 
-The following screenshots are available in the Google Drive folder:
+The complete screenshot walkthrough is available in the Google Drive folder:
 
-**1. Dashboard Overview**
-Full dashboard showing expense history, active tasks, upcoming reminders, and recent activity log.
+1. **Dashboard overview** — Consolidated overview of total expenses, active tasks, upcoming reminders, and recent activity log.
+2. **Successful voice action** — Multi-action results panel reflecting created records after a compound voice command.
+3. **Clarification request** — Assistant asking for required missing information instead of fabricating values.
+4. **Duplicate action detection** — User confirmation prompt when an identical action already exists in storage.
+5. **Task details** — Modal displaying task description, notes, priority badge, due date, and completion status.
+6. **Reminder details** — Modal showing scheduled date/time, description, status, and completion controls.
 
-**2. Successful Voice Action**
-Result panel after a compound voice command — expense recorded, task created, and reminder scheduled from one sentence.
-
-**3. Clarification Request**
-Voca detecting a missing required field (such as an expense with no amount) and prompting the user instead of inventing a value.
-
-**4. Duplicate Action Detection**
-Server-detected duplicate warning with user confirmation prompt before proceeding.
-
-**5. Task Details**
-Task detail panel showing title, description, notes, priority badge, due date, and completion status.
-
-**6. Reminder Details**
-Reminder detail panel showing scheduled time, description, and status.
-
-> Screenshots are hosted in the Google Drive folder above and are not committed to the repository.
+> **Note on media files:** High-resolution screenshots and video demo recordings are hosted in the Google Drive folder above rather than committed directly to GitHub to keep the repository lightweight and fast to clone.
 
 ---
 
